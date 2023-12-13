@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tira y afloja</title>
+    <style>
+        .tiraContainer {
+            width: 300px;
+            margin: auto;
+            display: flex;
+            justify-content: center;
+            border: 1px solid black;
+            border-radius: 10px;
+        }
+
+        .tiraContainer p:first-child {
+            margin-right: 10px;
+        }
+
+        .tiraContainer p:last-child {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="tiraContainer">
+        <p>Jorge</p>
+        <p id="number"></p>
+        <p>Jacobo</p>
+    </div>
+    <p id="ganador"></p>
+    <script>
+        //TURNOS
+        const JACOBO = 0;
+        const JORGE = 1;
+
+        //VALORES CON LOS QUE GANA CADA UNO
+        const WIN_JORGE = 14;
+        const WIN_JACOBO = 0;
+
+        //VALOR INICIAL
+        var initNumber = 7;
+
+        function getRandom(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        do {
+
+            //SACAMOS UN RANDOM ENTRE LOS DOS JUGADORES
+            var turno = getRandom(JACOBO, JORGE);
+
+            if (turno == JACOBO) {
+                //RESTAMOS UNO YA QUE LE TOCA A JACOBO, Y PARA GANAR EL TIENE QUE LLEGAR AL O
+                initNumber--;
+            } else if (turno == JORGE) {
+                //AL REVÉS QUE JACOBO (TIENE QUE LLEGA A 14), POR LO TANTO SE SUMA
+                initNumber++;
+            } else {
+                //POR SI FALLA ALGO
+                initNumber = "Algo está fallando";
+            }
+            document.getElementById("number").innerHTML = initNumber;
+        } while (initNumber != WIN_JORGE || initNumber != WIN_JACOBO)
+
+        //COMPROBAMOS QUIEN ES EL GANADOR
+        if (initNumber == WIN_JORGE) {
+            document.getElementById("ganador").innerHTML = "El ganador es: ¡Jorge!";
+        } else if (initNumber == WIN_JACOBO) {
+            document.getElementById("ganador").innerHTML = "El ganador es: ¡Jacobo!";
+        }
+
+    </script>
+</body>
+
+</html>
