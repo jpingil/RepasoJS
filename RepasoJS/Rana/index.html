@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rana</title>
+    <style>
+        body {
+            width: 90%;
+            height: 95vh;
+            border: 1px solid red;
+        }
+
+        #rana {
+            width: 300px;
+            height: 250px;
+            position: absolute;
+        }
+
+        #caja {
+            width: 300px;
+            height: 250px;
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body>
+    <img id="rana" src="img/rana.jpg" alt="rana">
+
+    <script>
+        //Declaramos la variable rana
+        const RANA = document.getElementById("rana");
+
+        //Cogemos el ancho y largo del body
+        var anchoBody = document.body.clientWidth;
+        var largoBody = document.body.clientHeight;
+
+        //Contandor de intentos
+        var counter = 0;
+
+        //Creamos el event listener para mover la rana y para mover la caja
+        RANA.addEventListener("mouseover", moverRana);
+        document.addEventListener("keydown", moverCaja);
+
+        //Funcion para mover la rana
+        function moverRana() {
+            //Cogemos unas cords randoms
+            var xCord = Math.floor(Math.random() * (anchoBody - RANA.width));
+            var yCord = Math.floor(Math.random() * (largoBody - RANA.height));
+
+            //Modificamos el estilo de la rana (sus cords)
+            RANA.style.left = xCord + "px";
+            RANA.style.top = yCord + "px";
+
+            //Aumentamos el contador en 1
+            counter++;
+
+            if (counter == 3) {
+
+                //Creamos la nueva imagen
+                var caja = document.createElement("img");
+
+                //Establecemos los atributos
+                caja.src = "img/caja.jpg";
+                caja.alt = "Caja";
+                caja.id = "caja";
+                caja.style.top = 0 + "px";
+                caja.style.left = 0 + "px";
+
+                //Evento para hacer la caja mas grande
+                caja.addEventListener("click", aumentarCaja);
+
+                //Agregamos la imagen al DOM
+                document.body.appendChild(caja);
+            }
+
+            //Compramos si se ha capturado a la rana
+            ranaCapturada();
+        }
+
+        //Funcion para mover la caja
+        function moverCaja(event) {
+            //Cogemos la caja
+            var caja = document.getElementById("caja")
+
+            //Establecemos la distancia (en pixeles) que se va a mover
+            let distancia = 100;
+
+            //Cogemos las cords
+            let cordX = parseInt(caja.style.left);
+            let cordY = parseInt(caja.style.top);
+            if (cordX >= 0 && cordY >= 0 && cordX < anchoBody && cordY < largoBody) {
+                switch (event.key) {
+                    case "w":
+                        cordY -= distancia;
+                        break;
+                    case "s":
+                        cordY += distancia;
+                        break;
+                    case "a":
+                        cordX -= distancia;
+                        break;
+                    case "d":
+                        cordX += distancia;
+                        break;
+                    default:
+                        alert("Esa tecla no es...");
+                        break;
+                }
+
+                caja.style.top = cordY + "px";
+                caja.style.left = cordX + "px";
+            } else {
+                caja.style.top = 0 + "px";
+                caja.style.left = 0 + "px";
+            }
+
+            //Compramos si se ha capturado a la rana
+            ranaCapturada();
+        }
+
+        //Funcion para aumentar el tamaño de la caja
+        function aumentarCaja() {
+            var caja = document.getElementById("caja");
+            var incrementarTamaño = 50;
+            caja.style.height = caja.clientHeight + incrementarTamaño + "px";
+            caja.style.width = caja.clientWidth + incrementarTamaño + "px";
+        }
+
+        function ranaCapturada() {
+            var caja = document.getElementById("caja");
+            var cajaRect = caja.getBoundingClientRect();
+            var ranaRect = RANA.getBoundingClientRect();
+
+            if (ranaRect.top >= cajaRect.top &&
+                ranaRect.bottom <= cajaRect.bottom &&
+                ranaRect.left >= cajaRect.left &&
+                ranaRect.right <= cajaRect.right) {
+                alert("¡Ganaste!");
+            }
+        }
+    </script>
+</body>
+
+</html>
