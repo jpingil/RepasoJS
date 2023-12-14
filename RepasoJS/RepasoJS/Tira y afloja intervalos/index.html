@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tira y Afloja Intervalos</title>
+  </head>
+  <style>
+    body {
+      background-color: cornsilk;
+    }
+    .body-container {
+      width: 100%;
+      height: 90vh;
+      display: grid;
+      align-items: center;
+    }
+
+    .juego {
+      width: 80%;
+      justify-self: center;
+      display: flex;
+      justify-content: space-around;
+      border-radius: 10px;
+      box-shadow: 0 2.8px 2.2px rgba(65, 212, 7, 0.712),
+        0 6.7px 5.3px rgb(31, 163, 224), 0 12.5px 10px rgb(214, 16, 171),
+        0 22.3px 17.9px rgb(255, 2, 2), 0 41.8px 33.4px rgb(238, 255, 0),
+        0 12px 80px rgb(161, 8, 221);
+    }
+
+    #ganador {
+      justify-self: center;
+      font-size: xx-large;
+    }
+  </style>
+  <body>
+    <div class="body-container">
+      <div class="juego">
+        <p>Jorge</p>
+        <p id="number"></p>
+        <p>Miguel</p>
+      </div>
+      <p id="ganador"></p>
+    </div>
+    <script>
+      //DECLARAMOS LOS MAXIMOS Y MINIMOS
+      const MAX = 1000;
+      const MIN = 500;
+      const SUMA_MAX = 3;
+      const SUMA_MIN = 0;
+
+      //DECLARAMOS LOS NÚMEROS CON LOS QUE GANA CADA JUGADOR
+      const WIN_JORGE = 20;
+      const WIN_MIGUEL = 0;
+
+      //DECLARAMOS EL NUMERO DE INICIO
+      var initNumber = 10;
+
+      //DECLARAMOS LOS INTERVALOS
+      var jorgeInterval = setInterval(
+        juego,
+        Math.random() * (MAX - MIN) + MIN,
+        "player1"
+      );
+      var miguelInterval = setInterval(
+        juego,
+        Math.random() * (MAX - MIN) + MIN,
+        "player2"
+      );
+
+      //FUNCION QUE GESTIONA EL JUEGO
+      function juego(player) {
+        if (player == "player1") {
+          initNumber += Math.floor(
+            Math.random() * (SUMA_MAX - SUMA_MIN + 1) + SUMA_MIN
+          );
+        } else {
+          initNumber -= Math.floor(
+            Math.random() * (SUMA_MAX - SUMA_MIN + 1) + SUMA_MIN
+          );
+        }
+
+        document.getElementById("number").innerHTML = initNumber;
+
+        //COMPROBAMOS SI HAY ALGÚN GANADOR
+        if (initNumber == WIN_JORGE) {
+          document.getElementById("ganador").innerHTML = "*!Ganó Jorge!*";
+          clearInterval(jorgeInterval);
+          clearInterval(miguelInterval);
+        } else if (initNumber == WIN_MIGUEL) {
+          document.getElementById("ganador").innerHTML = "*!Ganó Miguel!*";
+          clearInterval(jorgeInterval);
+          clearInterval(miguelInterval);
+        }
+      }
+    </script>
+  </body>
+</html>
