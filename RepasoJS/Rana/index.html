@@ -9,13 +9,15 @@
         body {
             width: 90%;
             height: 95vh;
-            border: 1px solid red;
+            background-image: url(img/lago.jpg);
+            background-size: cover;
         }
 
         #rana {
             width: 300px;
             height: 250px;
             position: absolute;
+            border-radius: 50px;
         }
 
         #caja {
@@ -71,6 +73,7 @@
 
                 //Evento para hacer la caja mas grande
                 caja.addEventListener("click", aumentarCaja);
+                alert("Para mover la caja utiliza: \n\nw -> arriba\n a -> izquierda \n d -> derecha\n s -> abajo  \n \n También puedes hacer la caja más grande dándole un click encima. ¡Suerte!");
 
                 //Agregamos la imagen al DOM
                 document.body.appendChild(caja);
