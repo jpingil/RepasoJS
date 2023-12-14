@@ -132,8 +132,11 @@
             caja.style.width = caja.clientWidth + incrementarTamaño + "px";
         }
 
+        //Funcion para comprobar si se ha capturado a la rana
         function ranaCapturada() {
             var caja = document.getElementById("caja");
+
+            //Este metodo devuelve los valores de left, top, right, bottom, x, y, width y height 
             var cajaRect = caja.getBoundingClientRect();
             var ranaRect = RANA.getBoundingClientRect();
 
