@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comparar fechas</title>
+</head>
+
+<body>
+    <label for="fecha">Primera fecha:</label>
+    <input type="text" name="primera-fecha" id="primera-fecha" placeholder="dd/mm/aaaa">
+    <label for="fecha">Segunda fecha:</label>
+    <input type="text" name="segunda-fecha" id="segunda-fecha" placeholder="dd/mm/aaaa">
+    <button onclick="calcularDiferencia()">Enviar</button>
+    <p id="resultado"></p>
+    <script>
+
+        //Función para calcular la diferencia entre las dos fechas
+        function calcularDiferencia() {
+            //Cogemos los valores de las fechas y los convertimos en un array
+            var primeraFechaArray = document.getElementById("primera-fecha").value.split("/");
+            var segundaFechaArray = document.getElementById("segunda-fecha").value.split("/");
+
+            //Creamos las nuevas fechas con los valores de los arrays
+            var primeraFecha = new Date(parseInt(primeraFechaArray[2]), parseInt(primeraFechaArray[1]) - 1, parseInt(primeraFechaArray[0]));
+            var segundaFecha = new Date(parseInt(segundaFechaArray[2]), parseInt(segundaFechaArray[1]) - 1, parseInt(segundaFechaArray[0]));
+
+            //Calculamos la diferencia en milisegundos
+            var milisegundos = (primeraFecha.getTime() >= segundaFecha.getTime()) ? primeraFecha.getTime() - segundaFecha.getTime() : segundaFecha.getTime() - primeraFecha.getTime();
+            var milisegundosDiferencia = milisegundos % 1000;
+            var segundos = Math.floor(milisegundos / 1000);
+            var segundosDiferencia = segundos % 60;
+            var minutos = Math.floor(segundos / 60);
+            var minutosDiferencia = minutos % 60;
+            var horas = Math.floor(minutos / 60);
+            var horasDiferencia = horas % 24;
+            var dias = Math.floor(horas / 24);
+            var diasDiferencia = dias % 30;
+            var meses = Math.floor(dias / 30);
+            var mesesDiferencia = meses % 12;
+            var añosDiferencia = Math.floor(meses / 12);
+
+
+            var resultado = "Pasaron: " + Math.floor(diasDiferencia) + " días, " + Math.floor(mesesDiferencia) + " meses, " + Math.floor(añosDiferencia) + " años.";
+            document.getElementById("resultado").innerHTML = resultado;
+        }
+
+    </script>
+</body>
+
+</html>
