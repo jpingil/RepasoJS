@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora</title>
+    <style>
+        body {
+            height: 90vh;
+            display: grid;
+            justify-items: center;
+            align-items: center;
+            background-color: black;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            text-align: center;
+            background-color: antiquewhite;
+            border: 10px;
+            padding: 10px;
+            box-shadow: 10px 10px white;
+        }
+
+        .container * {
+            margin: 10px;
+        }
+
+        .container label {
+            font-size: large;
+        }
+
+        .container select {
+            padding: 10px;
+        }
+
+        .container option {
+            background-color: white;
+        }
+
+        .container input {
+            padding: 10px;
+        }
+
+        .container button {
+            padding: 10px;
+            grid-column: span 2;
+            background-color: white;
+            border: 2px solid black;
+            font-weight: bold;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .container button:hover {
+            background-color: black;
+            color: white;
+        }
+
+        .container p{
+            grid-column: span 2;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <label for="operacion">Introduzca la operación que desea realizar: </label>
+        <select id="operaciones">
+            <option value="s">Suma</option>
+            <option value="r">Resta</option>
+            <option value="m">Multiplicación</option>
+            <option value="d">División</option>
+        </select>
+        <label for="numeros">Numeros: </label>
+        <input type="text" name="numeros" id="numeros" placeholder="num1, num2, num3...">
+        <button onclick="realizarOperacion()">Enviar</button>
+        <p id="resultado"></p>
+    </div>
+    <script>
+        //Funcion para realizarf la operacion que se nos pida
+        function realizarOperacion() {
+            var operacion = document.getElementById("operaciones").value;
+            var numeros = document.getElementById("numeros").value.split(",");
+            var resultado = 0;
+            if (operacion == "d" && numeros.length > 2) {
+                alert("No puedes introducir más de dos números para una división.");
+            } else {
+                switch (operacion) {
+                    case "d":
+                        (parseInt(numeros[0]) >= parseInt(numeros[1])) ? resultado = parseInt(numeros[0]) / parseInt(numeros[1]) : resultado = parseInt(numeros[1]) / parseInt(numeros[0]);
+                        break;
+                    case "m":
+                        resultado++;
+                        for (let index = 0; index < numeros.length; index++) {
+                            resultado *= parseInt(numeros[index]);
+                        }
+                        break;
+                    case "s":
+                        for (let index = 0; index < numeros.length; index++) {
+                            resultado += parseInt(numeros[index]);
+                        }
+                        break;
+                    case "r":
+                        resultado = numeros[0];
+                        for (let index = 1; index < numeros.length; index++) {
+                            resultado -= parseInt(numeros[index]);
+                        }
+                        break;
+                    default:
+                        alert("Algo salió mal.");
+                        break;
+                }
+                document.getElementById('resultado').innerHTML = "El resultado es: "+resultado;
+            }
+        }
+    </script>
+</body>
+
+</html>
