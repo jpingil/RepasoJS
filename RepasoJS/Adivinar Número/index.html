@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adivinar número</title>
+    <style>
+        body {
+            height: 90vh;
+            display: grid;
+            justify-items: center;
+            align-items: center;
+            background-color: black;
+        }
+
+        .juego {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            padding: 10px;
+            background-color: antiquewhite;
+            border-radius: 10px;
+        }
+
+        .juego * {
+            margin: 10px;
+        }
+
+        .juego h3 {
+            grid-column: span 2;
+            text-align: center;
+            font-size: xx-large;
+        }
+
+        .juego label {
+            font-size: large;
+            font-weight: bold;
+        }
+
+        .juego input {
+            padding: 10px;
+        }
+
+        .juego button {
+            grid-column: span 2;
+            padding: 10px;
+            border: 1px solid black;
+            background-color: white;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        .juego button:hover {
+            background-color: black;
+            color: white;
+        }
+
+        .juego p {
+            grid-column: span 2;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        //Declaramos las constantes
+        const NUMBER_MAX = 10;
+        const NUMBER_MIN = 0;
+        const INTENTOS_MAX = 3;
+
+        //Funcion para obtener un numero random en el que el minimo y el maximo esten incluidos
+        function getNumeroRandom(min, max) {
+            return Math.floor(Math.random() * (max - min + 1) + min);
+        }
+
+        //Declaramos la variable de numero a adivinar
+        var numeroRandom = getNumeroRandom(NUMBER_MIN, NUMBER_MAX);
+
+        //Declaramos la variable de intentos 
+        var intentos = 0;
+
+        //Funcion para comprobar el si el numero introducido coincide con el random
+        function comprobarNumero() {
+            document.getElementById("resultado").innerHTML = " ";
+
+            //Cogemos el número introducido
+            var numero = document.getElementById("numero").value;
+
+            //Comprobamos el numero
+            if (numero < 0 || numero > 10) {
+                alert("PEDAZO SUBNORMAL, TE DIJE QUE TENÍA QUE ESTAR ENTRE EL 0 Y EL 10, ASI QUE METE EL PUTO NÚMERO ENTRE EL RANGO QUE TE PUSE, O LE VOY A TENER QUE DECIR AL PUTO GORDO DEL PAPA NOEL QUE NO TE TRAIGA REGALITOS. GILIPOLLAS.");
+            } else {
+                if (numero > numeroRandom) {
+                    alert("Te pasaste... El número a advinar es más pequeño.");
+                    intentos++;
+                } else if (numero < numeroRandom) {
+                    alert("Te quedaste corto... El número a adivinar es más grande");
+                    intentos++;
+                } else {
+                    alert("¡Enhorabuena! Has acertado.");
+                }
+
+            }
+            console.log(intentos);
+            if (intentos == INTENTOS_MAX) {
+                document.getElementById("resultado").innerHTML = "Perdiste... El número era " + numeroRandom;
+                numeroRandom = getNumeroRandom(NUMBER_MIN, NUMBER_MAX);
+                intentos = 0;
+            }
+        }
+    </script>
+    <div class="juego">
+        <h3>Tienes 3 intentos para adivinar el número.</h3>
+        <label for="numero">Inserte un número entre el 0 y el 10: </label>
+        <input type="number" name="numero" id="numero">
+        <button onclick="comprobarNumero()">Enviar</button>
+        <p id="resultado"></p>
+    </div>
+</body>
+
+</html>
