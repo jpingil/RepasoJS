@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculo Números</title>
+</head>
+
+<body>
+    <label for="numeros">Inserte una lista de números:</label>
+    <input type="text" name="lista" id="lista">
+    <button onclick="realizarCalculos()">Enviar</button>
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+    <script>
+        //Funcion para realizar los calculos que vamos a meter en los p
+        function realizarCalculos() {
+
+            //Cogemos los valores y los metemos en un array
+            var numeros = [...document.getElementById("lista").value];
+
+            //Declaramos las variables que queremos calcular
+            var maxNum = Number.MIN_VALUE;
+            var minNum = Number.MAX_VALUE;
+            var suma = 0;
+            var media = 0;
+
+            for (let index = 0; index < numeros.length; index++) {
+                //Hacemos un parseo y metemos el valor en una variable
+                var value = parseInt(numeros[index]);
+                if (maxNum < value) {
+                    maxNum = value;
+                }
+
+                if (minNum > value) {
+                    minNum = value;
+                }
+                suma += value;
+            }
+
+            //Calculamos la media
+            media = suma;
+            media /= numeros.length;
+
+            //Mostramos los resultados
+            var p = document.getElementsByTagName("p");
+            p[0].innerHTML = "Máximo: " + maxNum;
+            p[1].innerHTML = "Mínimo: " + minNum;
+            p[2].innerHTML = "Suma: " + suma;
+            p[3].innerHTML = "Media: " + media;
+        }
+    </script>
+</body>
+
+</html>
