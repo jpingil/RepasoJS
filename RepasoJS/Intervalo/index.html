@@ -1,19 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Intervalo</title>
-</head>
-<body>
-    <p></p>
-    <input type="radio" name="counter" id="aumentar" onclick="incrementar()">
+  </head>
+  <body>
+    <p>0</p>
+    <input
+      type="radio"
+      name="counter"
+      id="aumentar"
+      onclick="aumentarInterval()"
+    />
     <label for="aumentar">Aumentar</label>
-    <input type="radio" name="counter" id="disminuir" onclick="disminuir()">
+    <input
+      type="radio"
+      name="counter"
+      id="disminuir"
+      onclick="disminuirInterval()"
+    />
     <label for="disminuir">Disminuir</label>
     <script>
-        
-    </script>
+      var aumentarIntervalo;
+      var disminuirIntervalo;
 
-</body>
+      //Funcion para aumentar el intervalo
+      function aumentarInterval() {
+        clearInterval(disminuirIntervalo);
+        aumentarIntervalo = setInterval(aumentar, 1000);
+      }
+
+      //Funcion para aumentar
+      function aumentar() {
+        var counter = parseInt(document.body.firstElementChild.textContent);
+        console.log(counter);
+        counter++;
+        document.body.firstElementChild.textContent = counter;
+      }
+
+      //Funcion para disminuir el codigo
+      function disminuirInterval() {
+        clearInterval(aumentarIntervalo);
+        disminuirIntervalo = setInterval(disminuir, 1000);
+      }
+
+      //Funcion que disminuye el codigo
+      function disminuir() {
+        var counter = parseInt(document.body.firstElementChild.textContent);
+        counter--;
+        document.body.firstElementChild.textContent = counter;
+      }
+    </script>
+  </body>
 </html>
