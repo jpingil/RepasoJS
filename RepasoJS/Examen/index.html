@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grados</title>
+</head>
+
+<body>
+
+    <label for="kelvin">Grados Kelvin: </label>
+    <input type="text" name="kelvin" id="kelvin" onkeyup="guardarGrados()"><br><br>
+    <input type="checkbox" name="orden" id="ascendente" value="ascendente">
+    <label for="ascendente">Ascendente</label><br><br>
+    <input type="radio" name="color" id="coloreado" value="coloreado">
+    <label for="coloreado">Coloreado</label>
+    <input type="radio" name="color" id="contraste" value="contraste">
+    <label for="contraste">Contraste</label><br><br>
+    <label for="celsius" onmouseover="mostrarCelsius()" onmouseleave="ocultarGrados()">Celsius</label>
+    <label for="farenheit" onmouseover="mostrarFarenheit()" onmouseleave="ocultarGrados()">Farenheit</label>
+
+    <script>
+        //Declaramos el array donde vamos a guardar los grados kelvin
+        var kelvin = [];
+
+        //Declaramos el array donde guardamos los grados ordenados
+        var gradosOrdenados = [];
+
+
+        //Funcion para guardar los grados
+        function guardarGrados() {
+            kelvin = document.getElementById("kelvin").value.split(",");
+            comprobarDatos();
+        }
+
+        //Funcion para comprobar los datos de kelvin
+        function comprobarDatos() {
+            for (let index = 0; index < kelvin.length; index++) {
+                if (kelvin[index] < 0) {
+                    alert("El número no puede ser menor que 0.");
+                }
+            }
+        }
+
+        //Funcion para motrar los Celsius
+        function mostrarCelsius() {
+            var ascendente = document.getElementById("ascendente");
+            var contraste = document.getElementById("contraste");
+            var coloreado = document.getElementById("coloreado");
+            if (ascendente.checked) {
+                var kelvinOrdenado = ordenarGrados();
+                for (let index = 0; index < kelvinOrdenado.length; index++) {
+                    var gradoCelsius = parseInt(kelvinOrdenado[index]) - 273.15;
+                    var p = document.createElement("p");
+                    p.innerHTML = gradoCelsius;
+                    p.id = "p" + index;
+                    document.body.appendChild(p);
+                }
+            } else {
+                for (let index = 0; index < kelvin.length; index++) {
+                    var gradoCelsius = parseInt(kelvin[index]) - 273.15;
+                    var p = document.createElement("p");
+                    p.innerHTML = gradoCelsius;
+                    p.id = "p" + index;
+                    document.body.appendChild(p);
+                }
+            }
+
+            if (contraste.checked || coloreado.checked) {
+                var grados = "celsius";
+                colorGrados(grados);
+            }
+        }
+
+        //Funcion para mostrar Farenheit 
+        function mostrarFarenheit() {
+            var ascendente = document.getElementById("ascendente");
+            var color = document.getElementById("contraste");
+            var coloreado = document.getElementById("coloreado");
+
+            if (ascendente.checked) {
+                var kelvinOrdenado = ordenarGrados();
+                for (let index = 0; index < kelvinOrdenado.length; index++) {
+                    var gradosFarenheit = 1.8 * (parseInt(kelvinOrdenado[index]) - 273.15) + 32;
+                    var p = document.createElement("p");
+                    p.innerHTML = gradosFarenheit;
+                    p.id = "p" + index;
+                    document.body.appendChild(p);
+                }
+            } else {
+                for (let index = 0; index < kelvin.length; index++) {
+                    var gradosFarenheit = 1.8 * (parseInt(kelvin[index]) - 273.15) + 32;
+                    var p = document.createElement("p");
+                    p.innerHTML = gradosFarenheit;
+                    p.id = "p" + index;
+                    document.body.appendChild(p);
+                }
+            }
+
+
+            if (contraste.checked || coloreado.checked) {
+                var grados = "farenheit";
+                colorGrados(grados);
+            }
+        }
+
+        //Funcion para ocultar los grados
+        function ocultarGrados() {
+            for (let index = 0; index < kelvin.length; index++) {
+                var p = document.body.querySelector("p");
+                document.body.removeChild(p);
+            }
+        }
+
+        //Funcion para ordenar los grados
+        function ordenarGrados() {
+            for (let index = 0; index < kelvin.length; index++) {
+                gradosOrdenados[index] = kelvin[index];
+            }
+            gradosOrdenados.sort(function (a, b) {
+                return a - b;
+            })
+            return gradosOrdenados;
+        }
+
+        //Funcion para cambiar los colores de los grados
+        function colorGrados(grados) {
+            var contraste = document.getElementById("contraste");
+            var coloreado = document.getElementById("coloreado");
+            if (contraste.checked) {
+                for (let index = 0; index < kelvin.length; index++) {
+                    document.getElementById("p" + index).style.backgroundColor = "black";
+                    document.getElementById("p" + index).style.color = "white";
+                }
+            } else if (coloreado.checked) {
+                for (let index = 0; index < kelvin.length; index++) {
+                    var grado = document.getElementById("p" + index);
+                    var gradosKelvin = 0;
+
+                    //Volvemos a coger los valores de kelvin haciendo las operaciones a la inversa
+                    if (grados == "celsius") {
+                        gradosKelvin = parseFloat(document.getElementById("p" + index).textContent) + 273.15;
+                    } else if (grados == "farenheit") {
+                        gradosKelvin = (parseFloat(document.getElementById("p" + index).textContent) + (1.8 * 273.15) - 32) / 1.8;
+                    }
+
+                    //Hacemos las comparaciones
+                    if (gradosKelvin < 0) {
+                        grado.style.color = "purple";
+                    } else if (gradosKelvin >= 0 && gradosKelvin <= 100) {
+                        grado.style.color = "blue";
+                    } else if (gradosKelvin > 100 && gradosKelvin <= 200) {
+                        grado.style.color = "green";
+                    } else if (gradosKelvin > 200 && gradosKelvin <= 300) {
+                        grado.style.color = "yellow";
+                    } else if (gradosKelvin > 300 && gradosKelvin <= 400) {
+                        grado.style.color = "orange";
+                    } else if (gradosKelvin > 400) {
+                        grado.style.color = "red";
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
